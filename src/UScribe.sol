@@ -9,6 +9,15 @@ import {UPokeData, SchnorrData, ECDSAData} from "./Types.sol";
 import {LibSchnorr} from "./libs/LibSchnorr.sol";
 import {LibSecp256k1} from "./libs/LibSecp256k1.sol";
 
+/**
+ * @title UScribe
+ * @custom:version 0.1.0
+ *
+ * @notice A universal Oracle
+ *
+ * @author Chronicle Labs, Inc
+ * @custom:security-contact security@chroniclelabs.org
+ */
 abstract contract UScribe is IUScribe, Auth {
     using LibSchnorr for LibSecp256k1.Point;
     using LibSecp256k1 for LibSecp256k1.Point;
