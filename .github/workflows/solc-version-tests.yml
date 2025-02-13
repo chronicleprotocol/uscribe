@@ -17,10 +17,10 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: stable
 
       - name: Run Forge tests against lowest and highest supported solc version
         run: >
           forge test --use 0.8.24 &&
-          forge test --use 0.8.29
+          forge test --use 0.8.28
 

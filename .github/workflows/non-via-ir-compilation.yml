@@ -17,7 +17,7 @@ jobs:
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
-          version: nightly
+          version: stable
 
       - name: Compile project without --via-ir
         run: FOUNDRY_PROFILE=no-via-ir forge build
