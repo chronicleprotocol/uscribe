@@ -1,66 +1,59 @@
-## Foundry
+<div align="center">
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+<h1>uScribe</h1>
 
-Foundry consists of:
+<a href="">[![Tests][tests-shield]][tests-shield-url]</a>
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+</div>
 
-## Documentation
+uScribe is an universal Oracle using efficient Schnorr multi-signatures.
 
-https://book.getfoundry.sh/
+## Installation
 
-## Usage
+Install module via Foundry:
 
-### Build
-
-```shell
-$ forge build
+```bash
+$ forge install chronicleprotocol/uscribe
 ```
 
-### Test
+## Contributing
 
-```shell
-$ forge test
+The project uses the Foundry toolchain. You can find installation instructions [here](https://getfoundry.sh/).
+
+Setup:
+
+```bash
+$ git clone https://github.com/chronicleprotocol/uscribe
+$ cd uscribe/
+$ forge install
 ```
 
-### Format
+Run tests:
 
-```shell
-$ forge fmt
+```bash
+$ forge test                          # Run all tests
+$ forge test -vvvv                    # Run all tests with full stack traces
+$ FOUNDRY_PROFILE=intense forge test  # Run all tests in intense mode
 ```
 
-### Gas Snapshots
+Lint:
 
-```shell
-$ forge snapshot
+```bash
+$ forge fmt [--check]
 ```
 
-### Anvil
+## Dependencies
 
-```shell
-$ anvil
-```
+- [chronicleprotocol/chronicle-std@v2](https://github.com/chronicleprotocol/chronicle-std/tree/v2)
 
-### Deploy
+## Licensing
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+The primary license for uScribe is the Business Source License 1.1 (`BUSL-1.1`), see [`LICENSE`](./LICENSE). However, some files are dual licensed under `MIT`:
 
-### Cast
+- All files in `src/libs/` may also be licensed under `MIT` (as indicated in their SPDX headers), see [`src/libs/LICENSE`](./src/libs/LICENSE)
+- Several Solidity interface files may also be licensed under `MIT` (as indicated in their SPDX headers)
+- Several files in `script/` may also be licensed under `MIT` (as indicated in their SPDX headers)
 
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+<!--- Shields -->
+[tests-shield]: https://github.com/chronicleprotocol/uscribe/actions/workflows/unit-tests.yml/badge.svg
+[tests-shield-url]: https://github.com/chronicleprotocol/uscribe/actions/workflows/unit-tests.yml
