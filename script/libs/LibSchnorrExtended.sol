@@ -8,14 +8,18 @@ import {LibSecp256k1} from "../../src/libs/LibSecp256k1.sol";
 
 import {LibSecp256k1Extended} from "./LibSecp256k1Extended.sol";
 
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Library copied from Scribe@v2.0.1
+//
+//  Reference: https://github.com/chronicleprotocol/scribe/blob/7d2106a265a8d82f259b506c4c8fec42002546ef/script/libs/LibSchnorrExtended.sol
+//
+///////////////////////////////////////////////////////////////////////////////
+
 /**
+ * @title LibSchnorrExtended
  *
- *
- * Library copied from Scribe@v2.0.1
- *
- * Reference: https://github.com/chronicleprotocol/scribe/blob/7d2106a265a8d82f259b506c4c8fec42002546ef/script/libs/LibSchnorrExtended.sol
- *
- *
+ * @notice Extended library for Schnorr signatures
  */
 library LibSchnorrExtended {
     using LibSecp256k1 for LibSecp256k1.Point;

@@ -3,11 +3,14 @@ pragma solidity ^0.8.16;
 
 import {LibSecp256k1} from "./LibSecp256k1.sol";
 
-/**
- * Library copied from Scribe@v2.0.1
- *
- * Reference: https://github.com/chronicleprotocol/scribe/blob/7d2106a265a8d82f259b506c4c8fec42002546ef/src/libs/LibSchnorr.sol
- */
+///////////////////////////////////////////////////////////////////////////////
+//
+// Library copied from Scribe@v2.0.1
+//
+// Reference: https://github.com/chronicleprotocol/scribe/blob/7d2106a265a8d82f259b506c4c8fec42002546ef/src/libs/LibSchnorr.sol
+//
+///////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * @title LibSchnorr
