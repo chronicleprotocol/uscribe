@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import {Test} from "forge-std/Test.sol";
+
 import {IUScribe} from "../src/IUScribe.sol";
 import {UPokeData, SchnorrData, ECDSAData} from "../src/Types.sol";
 
@@ -15,7 +17,7 @@ import {LibValidator, Validator} from "../script/libs/LibValidator.sol";
  *      It removes the need to handle validators, signature generation and other
  *      poke internals.
  */
-abstract contract ConsumerBaseTest {
+abstract contract ConsumerBaseTest is Test {
     using LibValidator for Validator;
 
     IUScribe private __uscribe;
