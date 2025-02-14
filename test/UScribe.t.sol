@@ -12,31 +12,31 @@ import {LibSecp256k1} from "../src/libs/LibSecp256k1.sol";
 
 import {DummyConsumer} from "./DummyConsumer.sol";
 
-// Events copied from UScribe.
-event UPoked(address indexed caller, string proofURI);
-
-event ValidatorLiftedSchnorr(address indexed caller, address indexed validator);
-
-event ValidatorDroppedSchnorr(
-    address indexed caller, address indexed validator
-);
-
-event BarUpdatedSchnorr(address indexed caller, uint8 oldBar, uint8 newBar);
-
-event ValidatorLiftedECDSA(address indexed caller, address indexed validator);
-
-event ValidatorDroppedECDSA(address indexed caller, address indexed validator);
-
-event BarUpdatedECDSA(address indexed caller, uint8 oldBar, uint8 newBar);
-
-// Events copied from Consumer.
-event Poked(bytes payload);
-
 contract UScribeTest is Test {
     using LibValidator for Validator;
     using LibValidator for Validator[];
 
     DummyConsumer uscribe;
+
+    // Events copied from UScribe.
+    event UPoked(address indexed caller, string proofURI);
+    event ValidatorLiftedSchnorr(
+        address indexed caller, address indexed validator
+    );
+    event ValidatorDroppedSchnorr(
+        address indexed caller, address indexed validator
+    );
+    event BarUpdatedSchnorr(address indexed caller, uint8 oldBar, uint8 newBar);
+    event ValidatorLiftedECDSA(
+        address indexed caller, address indexed validator
+    );
+    event ValidatorDroppedECDSA(
+        address indexed caller, address indexed validator
+    );
+    event BarUpdatedECDSA(address indexed caller, uint8 oldBar, uint8 newBar);
+
+    // Events copied from Consumer.
+    event Poked(bytes payload);
 
     function setUp() public {
         uscribe = new DummyConsumer(address(this), bytes32("VA::TBILL"));
