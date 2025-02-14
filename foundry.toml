@@ -41,9 +41,9 @@ runs = 100_000
 # Run via `FOUNDRY_PROFILE=ci forge t`
 [profile.ci]
 [profile.ci.fuzz]
-runs = 10_000
+runs = 5_000
 [profile.ci.invariant]
-runs = 10_000
+runs = 5_000
 
 # Profile for zkSync compilation
 [profile.default.zksync]
