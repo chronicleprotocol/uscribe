@@ -63,6 +63,22 @@ abstract contract UScribe is IUScribe, Auth {
     //--------------------------------------------------------------------------
     // Consumer Implemented Functionality
 
+    /// @dev Function implemented in downstream consumer contract to handle
+    ///      application specific state update.
+    ///
+    /// @dev The implementation MUST deserialize the payload and perform
+    ///      necessary sanity checks.
+    ///
+    ///      It SHOULD NOT revert but instead return the error types' selector
+    ///      whenever possible. This allows UScribe to wrap the application
+    ///      specific error into a `PokeError_ConsumerRejectedPayload()` error.
+    ///
+    ///      To indicate a successful poke, the function MUST return the
+    ///      `_NO_ERR = bytes4(0)` constant.
+    ///
+    /// @param payload The verified payload blob.
+    /// @return bytes4 `_NO_ERR` is poke successful, application's error type
+    ///                selector otherwise.
     function _poke(bytes calldata payload) internal virtual returns (bytes4);
 
     //--------------------------------------------------------------------------
