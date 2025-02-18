@@ -77,7 +77,7 @@ abstract contract UScribe is IUScribe, Auth {
     ///      `_NO_ERR = bytes4(0)` constant.
     ///
     /// @param payload The verified payload blob.
-    /// @return bytes4 `_NO_ERR` is poke successful, application's error type
+    /// @return bytes4 `_NO_ERR` if poke successful, application's error type
     ///                selector otherwise.
     function _poke(bytes calldata payload) internal virtual returns (bytes4);
 

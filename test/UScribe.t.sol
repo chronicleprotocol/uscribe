@@ -626,6 +626,48 @@ contract UScribeTest is Test {
     }
 
     //--------------------------------------------------------------------------
+    // Test: Chronicle Signed Message Functionality
+
+    function testFuzz_constructChronicleSignedMessage_DerivesMessageFromWholeInput(
+        bytes32 scheme,
+        UPokeDataSeed calldata uPokeDataSeed,
+        uint mask
+    ) public view {
+        vm.assume(mask != 0);
+
+        UPokeData memory uPokeData = constructUPokeData(uPokeDataSeed);
+
+        // Construct Chronicle Signed Message.
+        bytes32 message =
+            uscribe.constructChronicleSignedMessage(scheme, uPokeData);
+
+        // Verify message differs if scheme mutated.
+        bytes32 schemeMutated = bytes32(uint(scheme) ^ mask);
+        assertNotEq(
+            message,
+            uscribe.constructChronicleSignedMessage(schemeMutated, uPokeData)
+        );
+
+        // Verify message differs if uPokeData.payload mutated.
+        bytes memory payloadMutated = abi.encodePacked(uPokeData.payload, mask);
+        assertNotEq(
+            message,
+            uscribe.constructChronicleSignedMessage(
+                scheme, UPokeData(payloadMutated, uPokeData.proofURI)
+            )
+        );
+
+        // Verify message differs if uPokeData.proofURI mutated.
+        string memory proofURIMutated = string.concat(uPokeData.proofURI, ".");
+        assertNotEq(
+            message,
+            uscribe.constructChronicleSignedMessage(
+                scheme, UPokeData(uPokeData.payload, proofURIMutated)
+            )
+        );
+    }
+
+    //--------------------------------------------------------------------------
     // Test: Auth Protected Functions
 
     //----------------------------------

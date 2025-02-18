@@ -6,7 +6,7 @@
 
 </div>
 
-uScribe is an universal Oracle using efficient Schnorr multi-signatures.
+uScribe is a universal Oracle using efficient Schnorr multi-signatures.
 
 ## Installation
 
