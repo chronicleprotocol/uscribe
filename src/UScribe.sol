@@ -28,8 +28,7 @@ abstract contract UScribe is IUScribe, Auth {
 
     bytes4 internal constant _NO_ERR = bytes4(0);
 
-    /// @inheritdoc IUScribe
-    bytes32 public immutable wat;
+    bytes32 internal immutable _wat;
 
     //--------------------------------------------------------------------------
     // Storage
@@ -53,7 +52,7 @@ abstract contract UScribe is IUScribe, Auth {
 
     constructor(address initialAuthed, bytes32 wat_) Auth(initialAuthed) {
         require(wat_ != 0);
-        wat = wat_;
+        _wat = wat_;
 
         // Note to not have bars of zero.
         __schnorrStorage.bar = type(uint8).max;
@@ -80,6 +79,14 @@ abstract contract UScribe is IUScribe, Auth {
     /// @return bytes4 `_NO_ERR` if poke successful, application's error type
     ///                selector otherwise.
     function _poke(bytes calldata payload) internal virtual returns (bytes4);
+
+    /// @inheritdoc IUScribe
+    ///
+    /// @dev May need to be overwritten in downstream consumer contract if
+    ///      function is required by another interface, eg IChronicle.
+    function wat() public virtual view returns (bytes32) {
+        return _wat;
+    }
 
     //--------------------------------------------------------------------------
     // Poke Functionality
@@ -155,7 +162,7 @@ abstract contract UScribe is IUScribe, Auth {
                 "\x19Chronicle Signed Message:\n32",
                 keccak256(
                     abi.encodePacked(
-                        scheme, wat, uPokeData.payload, uPokeData.proofURI
+                        scheme, _wat, uPokeData.payload, uPokeData.proofURI
                     )
                 )
             )
