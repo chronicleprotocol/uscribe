@@ -6,7 +6,6 @@ import {Script} from "forge-std/Script.sol";
 import {console2 as console} from "forge-std/console2.sol";
 
 import {IAuth} from "chronicle-std/auth/IAuth.sol";
-import {IToll} from "chronicle-std/toll/IToll.sol";
 
 import {IUScribe} from "../src/IUScribe.sol";
 import {UPokeData, SchnorrData, ECDSAData} from "../src/Types.sol";
@@ -36,10 +35,14 @@ contract UScribeScript is Script {
     }
 
     /// @dev Lifts validator public keys for Schnorr on `self`.
-    function liftSchnorr(address self, uint[] memory pubKeyXCoordinates, uint[] memory pubKeyYCoordinates) public {
+    function liftSchnorr(
+        address self,
+        uint[] memory pubKeyXCoordinates,
+        uint[] memory pubKeyYCoordinates
+    ) public {
         uint len = pubKeyXCoordinates.length;
         require(
-             len == pubKeyYCoordinates.length,
+            len == pubKeyYCoordinates.length,
             "pubKeyYCoordinates length mismatch"
         );
 
@@ -55,7 +58,8 @@ contract UScribeScript is Script {
                 pubKeys[i].isOnCurve(),
                 "Public key must be valid secp256k1 point"
             );
-            bool isLifted = IUScribe(self).validatorsSchnorr(pubKeys[i].toAddress());
+            bool isLifted =
+                IUScribe(self).validatorsSchnorr(pubKeys[i].toAddress());
             require(!isLifted, "Public key already lifted");
         }
 

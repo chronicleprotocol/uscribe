@@ -84,7 +84,7 @@ abstract contract UScribe is IUScribe, Auth {
     ///
     /// @dev May need to be overwritten in downstream consumer contract if
     ///      function is required by another interface, eg IChronicle.
-    function wat() public virtual view returns (bytes32) {
+    function wat() public view virtual returns (bytes32) {
         return _wat;
     }
 
@@ -113,7 +113,7 @@ abstract contract UScribe is IUScribe, Auth {
         // Poke's security verified.
         emit UPoked(msg.sender, uPokeData.proofURI);
 
-        // Forward poke to consumer.
+        // Forward payload to consumer.
         err = _poke(uPokeData.payload);
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
@@ -142,7 +142,7 @@ abstract contract UScribe is IUScribe, Auth {
         // Poke's security verified.
         emit UPoked(msg.sender, uPokeData.proofURI);
 
-        // Forward poke to consumer.
+        // Forward payload to consumer.
         err = _poke(uPokeData.payload);
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
@@ -213,8 +213,6 @@ abstract contract UScribe is IUScribe, Auth {
             // Update validator variables.
             id = uint8(schnorr.validatorIds[i]);
             pubKey = __schnorrStorage.pubKeys[id];
-
-            // Fail if validator not lifted.
             if (pubKey.isZeroPoint()) {
                 return VerificationError_ValidatorInvalid.selector;
             }
@@ -273,8 +271,8 @@ abstract contract UScribe is IUScribe, Auth {
             id = uint160(signer) >> 152;
 
             // Fail if signature invalid or signer not a validator.
-            if (signer == address(0) || __ecdsaStorage.validators[id] != signer)
-            {
+            // forgefmt: disable-next-item
+            if (signer == address(0) || __ecdsaStorage.validators[id] != signer) {
                 return VerificationError_SignatureInvalid.selector;
             }
 
