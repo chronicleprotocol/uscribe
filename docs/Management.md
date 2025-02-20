@@ -121,7 +121,7 @@ $ forge script \
 
 Set the following environment variables:
 
-- `ECDSA_VALIDATOR_ADDRESSES`: The validators' addresses
+- `ECDSA_VALIDATORS`: The validators' addresses
 
 Note to use the following format for lists: `"[<elem>,<elem>]"`
 
@@ -133,7 +133,7 @@ $ forge script \
     --password "$KEYSTORE_PASSWORD" \
     --broadcast \
     --rpc-url "$RPC_URL" \
-    --sig $(cast calldata "liftECDSA(address,address[])" "$USCRIBE" "$ECDSA_VALIDATOR_ADDRESSES") \
+    --sig $(cast calldata "liftECDSA(address,address[])" "$USCRIBE" "$ECDSA_VALIDATORS") \
     -vvv \
     script/UScribe.s.sol:UScribeScript
 ```
