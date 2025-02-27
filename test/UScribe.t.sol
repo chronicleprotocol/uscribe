@@ -446,6 +446,9 @@ contract UScribeTest is Test {
     // Schnorr (frost)
 
     function test_pokeSchnorr_frost() public {
+        // Poke test using a pre-computed frost key to generate the Schnorr signature.
+        // Should be equivalent to testFuzz_pokeSchnorr with just one validator.
+
         // Construct a pre-computed frost key
         LibSecp256k1.Point memory frostPubKey = LibSecp256k1.Point(
             46577948145348314688701339262568100534765987616325743480296661420694074577270,
