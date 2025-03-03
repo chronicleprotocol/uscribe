@@ -443,25 +443,28 @@ contract UScribeTest is Test {
     }
 
     //----------------------------------
-    // Schnorr (frost)
+    // Schnorr (FROST)
 
-    function test_pokeSchnorr_frost() public {
-        // Poke test using a pre-computed frost key to generate the Schnorr signature.
-        // Should be equivalent to testFuzz_pokeSchnorr with just one validator.
+    function test_pokeSchnorrFROST() public {
+        // Verifies FROST signature can be used for Schnorr poke.
+        //
+        // The test uses a pre-computed FROST key and signature.
+        // Note that a FROST signature should be indistinguishable from a
+        // Schnorr musig with `bar = 1`.
 
-        // Construct a pre-computed frost key
+        // Construct FROST public key.
+        //
+        // The key was generated using a 3 of 5 setup. The secrets are:
+        // - 296896466979683268903067536260076947429701444436502838031716782152671696585773
+        // - 157668756302330021020908289987591664775187723784417088771950831501731011597277
+        // - 271855790560933895761999068136459313448743197665384016799419946868187187530777
+        // - 292081302043546306855626915680616169891855173242178908966308638827485739903262
+        // - 334137379987483449725362817628750141957361214793876669655222070521144830209069
         LibSecp256k1.Point memory frostPubKey = LibSecp256k1.Point(
             46577948145348314688701339262568100534765987616325743480296661420694074577270,
             9120978414465086029152496495462203541237060271678113393959322442287667490700
         );
         uint8 id = uint8(uint(uint160(frostPubKey.toAddress())) >> 152);
-
-        // This key was generated with 5 participants with threshold 3, the secrets were:
-        // 296896466979683268903067536260076947429701444436502838031716782152671696585773
-        // 157668756302330021020908289987591664775187723784417088771950831501731011597277
-        // 271855790560933895761999068136459313448743197665384016799419946868187187530777
-        // 292081302043546306855626915680616169891855173242178908966308638827485739903262
-        // 334137379987483449725362817628750141957361214793876669655222070521144830209069
 
         LibSecp256k1.Point[] memory pubKeys = new LibSecp256k1.Point[](1);
         pubKeys[0] = frostPubKey;
@@ -473,27 +476,39 @@ contract UScribeTest is Test {
         uscribe.setBarSchnorr(1);
 
         // Construct uPokeData.
-        UPokeData memory pokeData = UPokeData("PAYLOAD", "URI");
+        UPokeData memory uPokeData = UPokeData("PAYLOAD", "URI");
 
-        bytes32 message = uscribe.constructChronicleSignedMessage(
-            bytes32("SCHNORR"), pokeData
-        );
-
-        // The message signature has been pre computed using the above key and secrets
-        address commitment = LibSecp256k1.Point(
-            7391302342773079935720392116848559445646315311250337054247952705477162997300,
-            77860744077473972755119968636980140389831919833033144198319435178565140701318
-        ).toAddress();
-        SchnorrData memory schnorrData = SchnorrData(
-            bytes32(
+        // The signature for the Chronicle Signed Message of the uPokeData.
+        SchnorrData memory schnorrData = SchnorrData({
+            signature: bytes32(
                 0xe0eb5431e9914862c1bbf4da4b3734754ecf46716f020966aa99cc262e09c2e1
             ),
-            commitment,
-            abi.encodePacked(id)
-        );
+            commitment: LibSecp256k1.Point(
+                7391302342773079935720392116848559445646315311250337054247952705477162997300,
+                77860744077473972755119968636980140389831919833033144198319435178565140701318
+            ).toAddress(),
+            validatorIds: abi.encodePacked(id)
+        });
 
-        // Poke uPokeData with Schnorr frost.
-        uscribe.poke(pokeData, schnorrData);
+        // Expect general UScribe event.
+        vm.expectEmit();
+        emit UPoked(address(this), uPokeData.proofURI);
+
+        // Expect app-specific Consumer event.
+        vm.expectEmit();
+        emit Poked(uPokeData.payload);
+
+        // Poke uPokeData with Schnorr FROST.
+        uscribe.poke(uPokeData, schnorrData);
+
+        // Expect poke of mutated uPokeData with Schnorr FROST to fail.
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IUScribe.PokeError_VerificationFailed.selector,
+                IUScribe.VerificationError_SignatureInvalid.selector
+            )
+        );
+        uscribe.poke(UPokeData("NOT_PAYLOAD", "URI"), schnorrData);
     }
 
     //----------------------------------
