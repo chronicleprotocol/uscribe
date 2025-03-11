@@ -69,11 +69,25 @@ abstract contract UScribe is IUScribe, Auth {
     ///      necessary sanity checks.
     ///
     ///      It SHOULD NOT revert but instead return the error types' selector
-    ///      whenever possible. This allows UScribe to wrap the application
+    ///      whenever possible. This allows uScribe to wrap the application
     ///      specific error into a `PokeError_ConsumerRejectedPayload()` error.
     ///
     ///      To indicate a successful poke, the function MUST return the
     ///      `_NO_ERR = bytes4(0)` constant.
+    ///
+    /// @dev Note that this function is vulnerable to replay attacks.
+    ///
+    ///      Consumers MUST implement application specific logic to prevent
+    ///      replayability issues. uScribe only verifies that the respective
+    ///      validators attested to the payload at some point in time, ie
+    ///      uScribe performs a stateless signature verification.
+    ///
+    ///      Protections against replayability issues MAY be including a nonce
+    ///      in the payload or only accepting payloads with strictly
+    ///      monotonically increasing timestamps.
+    ///
+    ///      To protect against cross-chain replayability issues the payload
+    ///      MAY be expected to include the chain's id.
     ///
     /// @param payload The verified payload blob.
     /// @return bytes4 `_NO_ERR` if poke successful, application's error type
