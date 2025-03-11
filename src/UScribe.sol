@@ -82,8 +82,18 @@ abstract contract UScribe is IUScribe, Auth {
 
     /// @inheritdoc IUScribe
     ///
-    /// @dev May need to be overwritten in downstream consumer contract if
-    ///      function is required by another interface, eg IChronicle.
+    /// @dev Note that this function SHALL only be overwritten if the Solidity
+    ///      compiler necessitates it, for example if the function is required
+    ///      by an interface such as IChronicle.
+    ///
+    /// @dev Note that the function MUST only be overwritten to call this
+    ///      function's implementation, eg:
+    ///
+    ///      ```solidity
+    ///      function wat() public view overrides(UScribe) returns (bytes32) {
+    ///         return super.wat();
+    ///      }
+    ///      ```
     function wat() public view virtual returns (bytes32) {
         return _wat;
     }
@@ -157,6 +167,8 @@ abstract contract UScribe is IUScribe, Auth {
         bytes32 scheme,
         UPokeData calldata uPokeData
     ) public view returns (bytes32) {
+        // Note to use _wat and not wat() to fully protect against consumer
+        // implementations overriding the function.
         return keccak256(
             abi.encodePacked(
                 "\x19Chronicle Signed Message:\n32",
