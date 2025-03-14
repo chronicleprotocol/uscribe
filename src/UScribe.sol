@@ -82,6 +82,9 @@ abstract contract UScribe is IUScribe, Auth {
     ///      validators attested to the payload at some point in time, ie
     ///      uScribe performs a stateless signature verification.
     ///
+    ///      Note that this requires the payload to contain sufficient data for
+    ///      the consumer logic to protect against replayability issues.
+    ///
     ///      Protections against replayability issues MAY be including a nonce
     ///      in the payload or only accepting payloads with strictly
     ///      monotonically increasing timestamps.
