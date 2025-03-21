@@ -21,6 +21,7 @@ abstract contract ConsumerBaseTest is Test {
     using LibValidator for Validator;
 
     IUScribe private __uscribe;
+    bytes32 private __wat;
 
     Validator private __validator;
 
@@ -30,6 +31,7 @@ abstract contract ConsumerBaseTest is Test {
             "ConsumerBaseTest::_setUp: uscribe is zero address"
         );
         __uscribe = IUScribe(uscribe);
+        __wat = __uscribe.wat();
 
         __validator = LibValidator.newValidator({privKey: 2});
 
@@ -50,7 +52,11 @@ abstract contract ConsumerBaseTest is Test {
         });
 
         // Construct Chronicle Signed Message for ECDSA poke with uPokeData.
-        bytes32 message = __uscribe.constructChronicleSignedMessage({
+        //
+        // Note to not use __uscribe's constructChronicleSignedMessage function
+        // to prevent external call prior to __uscribe.poke().
+        // This allows callers to vm.expectRevert() the __uscribe.poke() call.
+        bytes32 message = __constructChronicleSignedMessage({
             scheme: bytes32("ECDSA"),
             uPokeData: uPokeData
         });
@@ -64,5 +70,24 @@ abstract contract ConsumerBaseTest is Test {
 
         // Execute poke.
         __uscribe.poke(uPokeData, ecdsas);
+    }
+
+    //--------------------------------------------------------------------------
+    // Private Helpers
+
+    function __constructChronicleSignedMessage(
+        bytes32 scheme,
+        UPokeData memory uPokeData
+    ) private view returns (bytes32) {
+        return keccak256(
+            abi.encodePacked(
+                "\x19Chronicle Signed Message:\n32",
+                keccak256(
+                    abi.encodePacked(
+                        scheme, __wat, uPokeData.payload, uPokeData.proofURI
+                    )
+                )
+            )
+        );
     }
 }
