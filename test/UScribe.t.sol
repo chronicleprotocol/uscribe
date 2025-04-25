@@ -18,6 +18,7 @@ contract UScribeTest is Test {
     using LibValidator for Validator[];
 
     DummyConsumer uscribe;
+    string constant NAME = "VA::Test";
 
     // Events copied from UScribe.
     event UPoked(address indexed caller, string proofURI);
@@ -40,7 +41,7 @@ contract UScribeTest is Test {
     event Poked(bytes payload);
 
     function setUp() public {
-        uscribe = new DummyConsumer(address(this), bytes32("VA::TBILL"));
+        uscribe = new DummyConsumer(address(this), NAME);
     }
 
     //--------------------------------------------------------------------------
@@ -170,8 +171,9 @@ contract UScribeTest is Test {
         assertTrue(uscribe.authed(address(this)));
         assertEq(uscribe.authed().length, 1);
 
-        // Wat given during construction is set.
-        assertEq(uscribe.wat(), bytes32("VA::TBILL"));
+        // Name given during construction is set and wat is derived via hash.
+        assertEq(uscribe.name(), NAME);
+        assertEq(uscribe.wat(), keccak256(bytes(NAME)));
 
         // Bars are set to 255.
         assertEq(uscribe.barSchnorr(), 255);
@@ -182,9 +184,9 @@ contract UScribeTest is Test {
         assertEq(uscribe.validatorsECDSA().length, 0);
     }
 
-    function test_Deployment_FailsIf_WatIsZero() public {
+    function test_Deployment_FailsIf_NameIsEmpty() public {
         vm.expectRevert();
-        new DummyConsumer(address(this), bytes32(""));
+        new DummyConsumer(address(this), "");
     }
 
     //--------------------------------------------------------------------------

@@ -8,8 +8,8 @@ contract DummyConsumer is UScribe {
 
     bool public rejectPokes;
 
-    constructor(address initialAuthed, bytes32 wat)
-        UScribe(initialAuthed, wat)
+    constructor(address initialAuthed, string memory name)
+        UScribe(initialAuthed, name)
     {}
 
     function _poke(bytes calldata payload)
