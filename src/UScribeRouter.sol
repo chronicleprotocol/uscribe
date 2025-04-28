@@ -22,12 +22,12 @@ abstract contract UScribeRouter is IUScribeRouter, Auth {
     constructor(address initialAuthed) Auth(initialAuthed) {}
 
     /// @inheritdoc IUScribeRouter
-    function setUScribe(address uscribe, bytes32 wat) external auth {
-        require(IUScribe(uscribe).wat() == wat);
+    function setUScribe(address uscribe_, bytes32 wat) external auth {
+        require(IUScribe(uscribe_).wat() == wat);
 
-        if (_uscribe != uscribe) {
-            emit UScribeUpdated(msg.sender, _uscribe, uscribe);
-            _uscribe = uscribe;
+        if (_uscribe != uscribe_) {
+            emit UScribeUpdated(msg.sender, _uscribe, uscribe_);
+            _uscribe = uscribe_;
         }
     }
 
