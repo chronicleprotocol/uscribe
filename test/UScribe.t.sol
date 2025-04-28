@@ -3,6 +3,8 @@ pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
 
+import {IAuth} from "chronicle-std/auth/IAuth.sol";
+
 import {LibValidator, Validator} from "../script/libs/LibValidator.sol";
 
 import {IUScribe} from "../src/IUScribe.sol";
@@ -739,6 +741,72 @@ contract UScribeTest is Test {
 
     //--------------------------------------------------------------------------
     // Test: Auth Protected Functions
+
+    function test_liftSchnorr_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.liftSchnorr(new LibSecp256k1.Point[](0));
+    }
+
+    function test_dropSchnorr_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.dropSchnorr(new uint8[](0));
+    }
+
+    function test_setBarSchnorr_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.setBarSchnorr(1);
+    }
+
+    function test_liftECDSA_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.liftECDSA(new address[](0));
+    }
+
+    function test_dropECDSA_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.dropECDSA(new uint8[](0));
+    }
+
+    function test_setBarECDSA_isAuthProtected() public {
+        // Expect revert if not auth'ed.
+        vm.prank(address(0xbeef));
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IAuth.NotAuthorized.selector, address(0xbeef)
+            )
+        );
+        uscribe.setBarECDSA(1);
+    }
 
     //----------------------------------
     // SchnorrStorage
