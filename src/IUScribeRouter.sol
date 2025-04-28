@@ -2,12 +2,13 @@
 pragma solidity ^0.8.24;
 
 interface IUScribeRouter {
-
     /// @notice Emitted when the UScribe address is updated.
     /// @param caller The caller's address.
     /// @param oldUScribe The old UScribe address.
     /// @param newUScribe The new UScribe address.
-    event UScribeUpdated(address indexed caller, address oldUScribe, address newUScribe);
+    event UScribeUpdated(
+        address indexed caller, address oldUScribe, address newUScribe
+    );
 
     /// @notice Sets the UScribe address.
     ///

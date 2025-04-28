@@ -18,9 +18,7 @@ import {DummyConsumer} from "./DummyConsumer.sol";
 
 contract UScribeRouterTest is Test {
     event UScribeUpdated(
-        address indexed caller,
-        address oldUScribe,
-        address newUScribe
+        address indexed caller, address oldUScribe, address newUScribe
     );
 
     DummyRouter public router;
@@ -102,8 +100,7 @@ contract UScribeRouterTest is Test {
         vm.prank(address(0xbeef));
         vm.expectRevert(
             abi.encodeWithSelector(
-                IAuth.NotAuthorized.selector,
-                address(0xbeef)
+                IAuth.NotAuthorized.selector, address(0xbeef)
             )
         );
         router.setUScribe(address(consumer), "VA::DUMMY");
