@@ -2,7 +2,6 @@
 pragma solidity ^0.8.24;
 
 import {Auth} from "chronicle-std/auth/Auth.sol";
-import {Toll} from "chronicle-std/toll/Toll.sol";
 
 import {IUScribe} from "./IUScribe.sol";
 import {IUScribeRouter} from "./IUScribeRouter.sol";
