@@ -7,7 +7,15 @@ import {Toll} from "chronicle-std/toll/Toll.sol";
 import {IUScribe} from "./IUScribe.sol";
 import {IUScribeRouter} from "./IUScribeRouter.sol";
 
-
+/**
+ * @title UScribeRouter
+ * @custom:version 1.0.0
+ *
+ * @notice A base router contract for UScribe.
+ *
+ * @author Chronicle Labs, Inc
+ * @custom:security-contact security@chroniclelabs.org
+ */
 abstract contract UScribeRouter is IUScribeRouter, Auth {
     address private _uscribe;
 
