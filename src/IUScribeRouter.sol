@@ -11,7 +11,6 @@ interface IUScribeRouter {
     );
 
     /// @notice Sets the UScribe address.
-    ///
     /// @param uscribe_ The address of the UScribe contract.
     /// @param wat The WAT of the UScribe contract.
     /// @dev Reverts if the UScribe contract does not have the expected WAT.
