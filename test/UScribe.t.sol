@@ -808,7 +808,6 @@ contract UScribeTest is Test {
         uscribe.setBarECDSA(1);
     }
 
-
     //----------------------------------
     // SchnorrStorage
 
