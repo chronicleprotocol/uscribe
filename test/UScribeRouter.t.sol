@@ -3,14 +3,10 @@ pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
 
-import {LibValidator, Validator} from "../script/libs/LibValidator.sol";
-
 import {IAuth} from "chronicle-std/auth/IAuth.sol";
 
 import {IUScribe} from "../src/IUScribe.sol";
 import {UScribe} from "../src/UScribe.sol";
-import {UPokeData, SchnorrData, ECDSAData} from "../src/Types.sol";
-import {LibSecp256k1} from "../src/libs/LibSecp256k1.sol";
 
 import {UScribeRouter} from "../src/UScribeRouter.sol";
 
