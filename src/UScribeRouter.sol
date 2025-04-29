@@ -8,7 +8,6 @@ import {IUScribeRouter} from "./IUScribeRouter.sol";
 
 /**
  * @title UScribeRouter
- * @custom:version 1.0.0
  *
  * @notice A base router contract for UScribe.
  *
