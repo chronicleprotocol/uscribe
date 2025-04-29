@@ -11,7 +11,7 @@ import {LibSecp256k1} from "./libs/LibSecp256k1.sol";
 
 /**
  * @title UScribe
- * @custom:version 1.0.0
+ * @custom:version 1.1.0
  *
  * @notice A universal Oracle
  *
