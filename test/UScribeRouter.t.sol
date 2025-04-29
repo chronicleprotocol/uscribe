@@ -30,7 +30,7 @@ contract UScribeRouterTest is Test {
     //--------------------------------------------------------------------------
     // Test: Deployment
 
-    function test_Deploymebnts() public view {
+    function test_Deployment() public view {
         // Only address given during construction is auth'ed.
         assertTrue(router.authed(address(this)));
         assertEq(router.authed().length, 1);
