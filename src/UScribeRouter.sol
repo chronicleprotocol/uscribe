@@ -16,7 +16,7 @@ import {IUScribeRouter} from "./IUScribeRouter.sol";
  * @custom:security-contact security@chroniclelabs.org
  */
 abstract contract UScribeRouter is IUScribeRouter, Auth {
-    address private _uscribe;
+    address private __uscribe;
 
     constructor(address initialAuthed) Auth(initialAuthed) {}
 
@@ -24,14 +24,14 @@ abstract contract UScribeRouter is IUScribeRouter, Auth {
     function setUScribe(address uscribe_, bytes32 wat) external auth {
         require(IUScribe(uscribe_).wat() == wat);
 
-        if (_uscribe != uscribe_) {
-            emit UScribeUpdated(msg.sender, _uscribe, uscribe_);
-            _uscribe = uscribe_;
+        if (__uscribe != uscribe_) {
+            emit UScribeUpdated(msg.sender, __uscribe, uscribe_);
+            __uscribe = uscribe_;
         }
     }
 
     /// @inheritdoc IUScribeRouter
     function uscribe() public view returns (address) {
-        return _uscribe;
+        return __uscribe;
     }
 }

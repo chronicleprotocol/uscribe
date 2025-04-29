@@ -11,11 +11,12 @@ interface IUScribeRouter {
     );
 
     /// @notice Sets the UScribe address.
-    /// @param uscribe_ The address of the UScribe contract.
-    /// @param wat The WAT of the UScribe contract.
-    /// @dev Reverts if the UScribe contract does not have the expected WAT.
-    function setUScribe(address uscribe_, bytes32 wat) external;
+    /// @param uscribe The address of the UScribe contract.
+    /// @param wat The wat of the UScribe contract.
+    /// @dev Reverts if the UScribe contract does not have the expected wat.
+    function setUScribe(address uscribe, bytes32 wat) external;
 
     /// @notice Returns the UScribe address.
+    /// @return address The UScribe address.
     function uscribe() external view returns (address);
 }
