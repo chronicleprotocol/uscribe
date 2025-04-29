@@ -146,8 +146,17 @@ interface IUScribe {
     // Public View Functions
 
     /// @notice Returns the oracle's identifier.
+    /// @dev The wat is derived from `name()`:
+    ///
+    ///      ```solidity
+    ///      assert(wat() = keccak256(bytes(name())));
+    ///      ```
     /// @return bytes32 The oracle's identifier.
     function wat() external view returns (bytes32);
+
+    /// @notice Returns the oracle's name.
+    /// @return string The oracle's name.
+    function name() external view returns (string memory);
 
     /// @notice Returns whether address `who` is a validator for Schnorr
     ///         verification.

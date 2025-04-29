@@ -28,7 +28,11 @@ abstract contract UScribe is IUScribe, Auth {
 
     bytes4 internal constant _NO_ERR = bytes4(0);
 
-    bytes32 internal immutable _wat;
+    bytes32 public immutable wat;
+
+    // Note that strings cannot be marked as immutable.
+    // @custom:invariant Is immutable.
+    string private _name;
 
     //--------------------------------------------------------------------------
     // Storage
@@ -50,13 +54,22 @@ abstract contract UScribe is IUScribe, Auth {
     //--------------------------------------------------------------------------
     // Constructor
 
-    constructor(address initialAuthed, bytes32 wat_) Auth(initialAuthed) {
-        require(wat_ != 0);
-        _wat = wat_;
+    constructor(address initialAuthed, string memory name_)
+        Auth(initialAuthed)
+    {
+        require(bytes(name_).length != 0);
+
+        _name = name_;
+        wat = keccak256(bytes(name_));
 
         // Note to not have bars of zero.
         __schnorrStorage.bar = type(uint8).max;
         __ecdsaStorage.bar = type(uint8).max;
+    }
+
+    /// @inheritdoc IUScribe
+    function name() external view returns (string memory) {
+        return _name;
     }
 
     //--------------------------------------------------------------------------
@@ -96,24 +109,6 @@ abstract contract UScribe is IUScribe, Auth {
     /// @return bytes4 `_NO_ERR` if poke successful, application's error type
     ///                selector otherwise.
     function _poke(bytes calldata payload) internal virtual returns (bytes4);
-
-    /// @inheritdoc IUScribe
-    ///
-    /// @dev Note that this function SHALL only be overwritten if the Solidity
-    ///      compiler necessitates it, for example if the function is required
-    ///      by an interface such as IChronicle.
-    ///
-    /// @dev Note that the function MUST only be overwritten to call this
-    ///      function's implementation, eg:
-    ///
-    ///      ```solidity
-    ///      function wat() public view overrides(UScribe) returns (bytes32) {
-    ///         return super.wat();
-    ///      }
-    ///      ```
-    function wat() public view virtual returns (bytes32) {
-        return _wat;
-    }
 
     //--------------------------------------------------------------------------
     // Poke Functionality
@@ -184,14 +179,12 @@ abstract contract UScribe is IUScribe, Auth {
         bytes32 scheme,
         UPokeData calldata uPokeData
     ) public view returns (bytes32) {
-        // Note to use _wat and not wat() to fully protect against consumer
-        // implementations overriding the function.
         return keccak256(
             abi.encodePacked(
                 "\x19Chronicle Signed Message:\n32",
                 keccak256(
                     abi.encodePacked(
-                        scheme, _wat, uPokeData.payload, uPokeData.proofURI
+                        scheme, wat, uPokeData.payload, uPokeData.proofURI
                     )
                 )
             )

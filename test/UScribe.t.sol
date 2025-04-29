@@ -20,6 +20,7 @@ contract UScribeTest is Test {
     using LibValidator for Validator[];
 
     DummyConsumer uscribe;
+    string constant NAME = "VA::Test";
 
     // Events copied from UScribe.
     event UPoked(address indexed caller, string proofURI);
@@ -42,7 +43,7 @@ contract UScribeTest is Test {
     event Poked(bytes payload);
 
     function setUp() public {
-        uscribe = new DummyConsumer(address(this), bytes32("VA::TBILL"));
+        uscribe = new DummyConsumer(address(this), NAME);
     }
 
     //--------------------------------------------------------------------------
@@ -172,8 +173,9 @@ contract UScribeTest is Test {
         assertTrue(uscribe.authed(address(this)));
         assertEq(uscribe.authed().length, 1);
 
-        // Wat given during construction is set.
-        assertEq(uscribe.wat(), bytes32("VA::TBILL"));
+        // Name given during construction is set and wat is derived via hash.
+        assertEq(uscribe.name(), NAME);
+        assertEq(uscribe.wat(), keccak256(bytes(NAME)));
 
         // Bars are set to 255.
         assertEq(uscribe.barSchnorr(), 255);
@@ -184,9 +186,9 @@ contract UScribeTest is Test {
         assertEq(uscribe.validatorsECDSA().length, 0);
     }
 
-    function test_Deployment_FailsIf_WatIsZero() public {
+    function test_Deployment_FailsIf_NameIsEmpty() public {
         vm.expectRevert();
-        new DummyConsumer(address(this), bytes32(""));
+        new DummyConsumer(address(this), "");
     }
 
     //--------------------------------------------------------------------------
@@ -457,14 +459,14 @@ contract UScribeTest is Test {
         // Construct FROST public key.
         //
         // The key was generated using a 3 of 5 setup. The secrets are:
-        // - 296896466979683268903067536260076947429701444436502838031716782152671696585773
-        // - 157668756302330021020908289987591664775187723784417088771950831501731011597277
-        // - 271855790560933895761999068136459313448743197665384016799419946868187187530777
-        // - 292081302043546306855626915680616169891855173242178908966308638827485739903262
-        // - 334137379987483449725362817628750141957361214793876669655222070521144830209069
+        // - 319564716152412347247552246407185122966667010516121584212641301417448007896896
+        // - 315553287393230738186054985516315559944730514454648054793817431557429535317214
+        // - 386545967056707118336559986962684329089278522132968898680006837722005826054531
+        // - 185166487430892901428354295720227706841798340713859402723394030486622395625836
+        // - 290375294702369064579292836832385232466477791592694088837004825558870051502814
         LibSecp256k1.Point memory frostPubKey = LibSecp256k1.Point(
-            46577948145348314688701339262568100534765987616325743480296661420694074577270,
-            9120978414465086029152496495462203541237060271678113393959322442287667490700
+            1046666380883525877290896698470011009907878904846152238980080396875967445023,
+            18289632782974915667847294961520078393696577127662538020223760415989520241062
         );
         uint8 id = uint8(uint(uint160(frostPubKey.toAddress())) >> 152);
 
@@ -483,11 +485,11 @@ contract UScribeTest is Test {
         // The signature for the Chronicle Signed Message of the uPokeData.
         SchnorrData memory schnorrData = SchnorrData({
             signature: bytes32(
-                0xe0eb5431e9914862c1bbf4da4b3734754ecf46716f020966aa99cc262e09c2e1
+                0x11dd88c990738a00b1785d4a3d057e975a1fecec1f6c191b5f952379118ae6da
             ),
             commitment: LibSecp256k1.Point(
-                7391302342773079935720392116848559445646315311250337054247952705477162997300,
-                77860744077473972755119968636980140389831919833033144198319435178565140701318
+                6340110420811610656928001409194766834203496523599024652304649721226179725011,
+                52480649916900484388424402331993416731649345044251763677678341534064318195540
             ).toAddress(),
             validatorIds: abi.encodePacked(id)
         });
