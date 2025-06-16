@@ -11,7 +11,7 @@ import {LibSecp256k1} from "./libs/LibSecp256k1.sol";
 
 /**
  * @title UScribe
- * @custom:version 1.1.0
+ * @custom:version 1.2.0
  *
  * @notice A universal Oracle
  *
@@ -184,7 +184,10 @@ abstract contract UScribe is IUScribe, Auth {
                 "\x19Chronicle Signed Message:\n32",
                 keccak256(
                     abi.encodePacked(
-                        scheme, wat, uPokeData.payload, uPokeData.proofURI
+                        scheme,
+                        wat,
+                        keccak256(abi.encodePacked(uPokeData.payload)),
+                        keccak256(abi.encodePacked(uPokeData.proofURI))
                     )
                 )
             )
