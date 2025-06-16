@@ -184,8 +184,8 @@ abstract contract UScribe is IUScribe, Auth {
                 "\x19Chronicle Signed Message:\n32",
                 keccak256(
                     abi.encodePacked(
-                        scheme, 
-                        wat, 
+                        scheme,
+                        wat,
                         keccak256(abi.encodePacked(uPokeData.payload)),
                         keccak256(abi.encodePacked(uPokeData.proofURI))
                     )
