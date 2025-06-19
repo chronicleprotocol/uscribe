@@ -84,7 +84,10 @@ abstract contract ConsumerBaseTest is Test {
                 "\x19Chronicle Signed Message:\n32",
                 keccak256(
                     abi.encodePacked(
-                        scheme, __wat, uPokeData.payload, uPokeData.proofURI
+                        scheme,
+                        __wat,
+                        keccak256(abi.encodePacked(uPokeData.payload)),
+                        keccak256(abi.encodePacked(uPokeData.proofURI))
                     )
                 )
             )
