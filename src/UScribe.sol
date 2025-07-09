@@ -38,8 +38,7 @@ abstract contract UScribe is IUScribe, Auth {
     //--------------------------------------------------------------------------
     // Storage
 
-    /// @inheritdoc IUScribe
-    uint public age;
+    uint private _age;
 
     struct SchnorrStorage {
         LibSecp256k1.Point[256] pubKeys;
@@ -146,7 +145,7 @@ abstract contract UScribe is IUScribe, Auth {
         }
 
         // Update age if poke accepted by consumer.
-        age = block.timestamp;
+        _age = block.timestamp;
     }
 
     /// @inheritdoc IUScribe
@@ -178,7 +177,7 @@ abstract contract UScribe is IUScribe, Auth {
         }
 
         // Update age if poke accepted by consumer.
-        age = block.timestamp;
+        _age = block.timestamp;
     }
 
     //--------------------------------------------------------------------------
@@ -418,6 +417,11 @@ abstract contract UScribe is IUScribe, Auth {
 
     //--------------------------------------------------------------------------
     // Public View Functions
+
+    /// @inheritdoc IUScribe
+    function age() external view returns (uint) {
+        return _age;
+    }
 
     //----------------------------------
     // SchnorrStorage
