@@ -419,7 +419,10 @@ abstract contract UScribe is IUScribe, Auth {
     // Public View Functions
 
     /// @inheritdoc IUScribe
-    function age() external view returns (uint) {
+    ///
+    /// @dev Note that function is public to give read-only access to
+    ///      downstream consumers.
+    function age() public view returns (uint) {
         return _age;
     }
 
