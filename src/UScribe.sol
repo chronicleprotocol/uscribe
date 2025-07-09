@@ -28,6 +28,7 @@ abstract contract UScribe is IUScribe, Auth {
 
     bytes4 internal constant _NO_ERR = bytes4(0);
 
+    /// @inheritdoc IUScribe
     bytes32 public immutable wat;
 
     // Note that strings cannot be marked as immutable.
@@ -36,6 +37,9 @@ abstract contract UScribe is IUScribe, Auth {
 
     //--------------------------------------------------------------------------
     // Storage
+
+    /// @inheritdoc IUScribe
+    uint public age;
 
     struct SchnorrStorage {
         LibSecp256k1.Point[256] pubKeys;
@@ -140,6 +144,9 @@ abstract contract UScribe is IUScribe, Auth {
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
         }
+
+        // Update age if poke accepted by consumer.
+        age = block.timestamp;
     }
 
     /// @inheritdoc IUScribe
@@ -169,6 +176,9 @@ abstract contract UScribe is IUScribe, Auth {
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
         }
+
+        // Update age if poke accepted by consumer.
+        age = block.timestamp;
     }
 
     //--------------------------------------------------------------------------
