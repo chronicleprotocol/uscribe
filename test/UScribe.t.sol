@@ -184,6 +184,9 @@ contract UScribeTest is Test {
         // No validators lifted for Schnorr or ECDSA.
         assertEq(uscribe.validatorsSchnorr().length, 0);
         assertEq(uscribe.validatorsECDSA().length, 0);
+
+        // Latest poke timestamp is zero.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function test_Deployment_FailsIf_NameIsEmpty() public {
@@ -231,6 +234,9 @@ contract UScribeTest is Test {
 
         // Poke uPokeData with Schnorr musig.
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to be updated.
+        assertEq(uscribe.latestPoke(), vm.getBlockTimestamp());
     }
 
     function testFuzz_pokeSchnorr_FailsIf_VerificationFailed_DueTo_BarNotReached(
@@ -271,6 +277,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeSchnorr_FailsIf_VerificationFailed_DueTo_SignatureInvalid(
@@ -314,6 +323,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeSchnorr_FailsIf_VerificationFailed_DueTo_ValidatorInvalid(
@@ -364,6 +376,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeSchnorr_FailsIf_VerificationFailed_DueTo_DoubleSigningAttempted(
@@ -407,6 +422,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeSchnorr_FailsIf_ConsumerRejectedPayload(
@@ -444,6 +462,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, schnorr);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     //----------------------------------
@@ -505,6 +526,9 @@ contract UScribeTest is Test {
         // Poke uPokeData with Schnorr FROST.
         uscribe.poke(uPokeData, schnorrData);
 
+        // Expect latestPoke timestamp to be updated.
+        assertEq(uscribe.latestPoke(), vm.getBlockTimestamp());
+
         // Expect poke of mutated uPokeData with Schnorr FROST to fail.
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -549,6 +573,9 @@ contract UScribeTest is Test {
 
         // Poke uPokeData with list of ECDSA signatures.
         uscribe.poke(uPokeData, ecdsas);
+
+        // Expect latestPoke timestamp to be updated.
+        assertEq(uscribe.latestPoke(), vm.getBlockTimestamp());
     }
 
     function testFuzz_pokeECDSA_FailsIf_VerificationFailed_DueTo_BarNotReached(
@@ -583,6 +610,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, ecdsas);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeECDSA_FailsIf_VerificationFailed_DueTo_SignatureInvalid(
@@ -624,6 +654,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, ecdsas);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeECDSA_FailsIf_VerificationFailed_DueTo_DoubleSigningAttempted(
@@ -663,6 +696,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, ecdsas);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     function testFuzz_pokeECDSA_FailsIf_ConsumerRejectedPayload(
@@ -697,6 +733,9 @@ contract UScribeTest is Test {
             )
         );
         uscribe.poke(uPokeData, ecdsas);
+
+        // Expect latestPoke timestamp to not be updated.
+        assertEq(uscribe.latestPoke(), 0);
     }
 
     //--------------------------------------------------------------------------

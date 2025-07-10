@@ -38,7 +38,7 @@ abstract contract UScribe is IUScribe, Auth {
     //--------------------------------------------------------------------------
     // Storage
 
-    uint private _age;
+    uint48 private _latestPoke;
 
     struct SchnorrStorage {
         LibSecp256k1.Point[256] pubKeys;
@@ -103,7 +103,8 @@ abstract contract UScribe is IUScribe, Auth {
     ///
     ///      Protections against replayability issues MAY be including a nonce
     ///      in the payload or only accepting payloads with strictly
-    ///      monotonically increasing timestamps.
+    ///      monotonically increasing timestamps. The `age()(uint)` function
+    ///      can be used by consumers to access the timestamp of the last poke.
     ///
     ///      To protect against cross-chain replayability issues the payload
     ///      MAY be expected to include the chain's id.
@@ -144,8 +145,8 @@ abstract contract UScribe is IUScribe, Auth {
             revert PokeError_ConsumerRejectedPayload(err);
         }
 
-        // Update age if poke accepted by consumer.
-        _age = block.timestamp;
+        // Update latest poke timestamp once poke accepted by consumer.
+        _latestPoke = uint48(block.timestamp);
     }
 
     /// @inheritdoc IUScribe
@@ -176,8 +177,8 @@ abstract contract UScribe is IUScribe, Auth {
             revert PokeError_ConsumerRejectedPayload(err);
         }
 
-        // Update age if poke accepted by consumer.
-        _age = block.timestamp;
+        // Update latest poke timestamp once poke accepted by consumer.
+        _latestPoke = uint48(block.timestamp);
     }
 
     //--------------------------------------------------------------------------
@@ -420,10 +421,10 @@ abstract contract UScribe is IUScribe, Auth {
 
     /// @inheritdoc IUScribe
     ///
-    /// @dev Note that function is public to give read-only access to
-    ///      downstream consumers.
-    function age() public view returns (uint) {
-        return _age;
+    /// @dev Note that function is public to grant read-only access to
+    ///      downstream consumer.
+    function latestPoke() public view returns (uint) {
+        return _latestPoke;
     }
 
     //----------------------------------

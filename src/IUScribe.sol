@@ -158,11 +158,11 @@ interface IUScribe {
     /// @return string The oracle's name.
     function name() external view returns (string memory);
 
-    /// @notice Returns the age of last poke.
-    /// @dev The age is updated to block.timestamp on every poke and allows
-    ///      uniform staleness monitoring across uscribe instances.
-    /// @return uint The age of the last poke.
-    function age() external view returns (uint);
+    /// @notice Returns the timestamp of the latest poke.
+    /// @dev This timestamp is updated on every poke and allows uniform
+    ///      staleness monitoring accross uscribe instances.
+    /// @return uint The timestamp of the latest poke.
+    function latestPoke() external view returns (uint);
 
     /// @notice Returns whether address `who` is a validator for Schnorr
     ///         verification.
