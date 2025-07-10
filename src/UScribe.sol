@@ -28,6 +28,7 @@ abstract contract UScribe is IUScribe, Auth {
 
     bytes4 internal constant _NO_ERR = bytes4(0);
 
+    /// @inheritdoc IUScribe
     bytes32 public immutable wat;
 
     // Note that strings cannot be marked as immutable.
@@ -36,6 +37,8 @@ abstract contract UScribe is IUScribe, Auth {
 
     //--------------------------------------------------------------------------
     // Storage
+
+    uint48 private _latestPoke;
 
     struct SchnorrStorage {
         LibSecp256k1.Point[256] pubKeys;
@@ -100,7 +103,9 @@ abstract contract UScribe is IUScribe, Auth {
     ///
     ///      Protections against replayability issues MAY be including a nonce
     ///      in the payload or only accepting payloads with strictly
-    ///      monotonically increasing timestamps.
+    ///      monotonically increasing timestamps. The `latestPoke()(uint)`
+    ///      function can be used by consumers to access the timestamp of the
+    ///      last poke.
     ///
     ///      To protect against cross-chain replayability issues the payload
     ///      MAY be expected to include the chain's id.
@@ -140,6 +145,9 @@ abstract contract UScribe is IUScribe, Auth {
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
         }
+
+        // Update latest poke timestamp once poke accepted by consumer.
+        _latestPoke = uint48(block.timestamp);
     }
 
     /// @inheritdoc IUScribe
@@ -169,6 +177,9 @@ abstract contract UScribe is IUScribe, Auth {
         if (err != _NO_ERR) {
             revert PokeError_ConsumerRejectedPayload(err);
         }
+
+        // Update latest poke timestamp once poke accepted by consumer.
+        _latestPoke = uint48(block.timestamp);
     }
 
     //--------------------------------------------------------------------------
@@ -408,6 +419,14 @@ abstract contract UScribe is IUScribe, Auth {
 
     //--------------------------------------------------------------------------
     // Public View Functions
+
+    /// @inheritdoc IUScribe
+    ///
+    /// @dev Note that function is public to grant read-only access to
+    ///      downstream consumer.
+    function latestPoke() public view returns (uint) {
+        return _latestPoke;
+    }
 
     //----------------------------------
     // SchnorrStorage
