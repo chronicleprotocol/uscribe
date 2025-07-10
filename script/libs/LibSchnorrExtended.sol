@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import {console2} from "forge-std/console2.sol";
-import {StdStyle} from "forge-std/StdStyle.sol";
+import {console2} from "forge-std@v1/console2.sol";
+import {StdStyle} from "forge-std@v1/StdStyle.sol";
 
 import {LibSecp256k1} from "../../src/libs/LibSecp256k1.sol";
 

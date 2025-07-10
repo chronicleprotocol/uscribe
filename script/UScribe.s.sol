@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {Vm} from "forge-std/Vm.sol";
-import {Script} from "forge-std/Script.sol";
-import {console2 as console} from "forge-std/console2.sol";
+import {Vm} from "forge-std@v1/Vm.sol";
+import {Script} from "forge-std@v1/Script.sol";
+import {console2 as console} from "forge-std@v1/console2.sol";
 
-import {IAuth} from "chronicle-std/auth/IAuth.sol";
+import {IAuth} from "chronicle-std@v2/auth/IAuth.sol";
 
 import {IUScribe} from "../src/IUScribe.sol";
 import {UPokeData, SchnorrData, ECDSAData} from "../src/Types.sol";

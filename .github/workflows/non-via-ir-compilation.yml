@@ -19,6 +19,9 @@ jobs:
         with:
           version: stable
 
+      - name: Download dependencies
+        run: forge soldeer install
+
       - name: Compile project without --via-ir
         run: FOUNDRY_PROFILE=no-via-ir forge build
 

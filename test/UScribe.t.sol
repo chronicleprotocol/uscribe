@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {Test} from "forge-std/Test.sol";
+import {Test} from "forge-std@v1/Test.sol";
 
-import {IAuth} from "chronicle-std/auth/IAuth.sol";
+import {IAuth} from "chronicle-std@v2/auth/IAuth.sol";
 
 import {LibValidator, Validator} from "../script/libs/LibValidator.sol";
 

@@ -1,7 +1,7 @@
 [profile.default]
-src = 'src'
-out = 'out'
-libs = ['lib']
+src = "src"
+out = "out"
+libs = ["dependencies"]
 
 # Compilation
 solc_version = "0.8.28"
@@ -21,6 +21,14 @@ ignore = []
 
 [doc]
 out = "docs_generated" # Note to not overwrite own docs
+
+[soldeer]
+# See https://github.com/mario-eth/soldeer/blob/main/USAGE.md#configuration
+remappings_generate = false
+remappings_regenerate = false
+remappings_version = false
+remappings_location = "txt"
+recursive_deps = true
 
 # Profile to compile without --via-ir and optimizations
 # Run via `FOUNDRY_PROFILE=no-via-ir forge ...`
@@ -48,5 +56,8 @@ runs = 5_000
 [profile.default.zksync]
 zksolc = "1.5.1"
 
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+[dependencies]
+forge-std = "1.9.7"
+chronicle-std = { version = "2.1.0", git = "https://github.com/chronicleprotocol/chronicle-std", rev = "ea9afe78a1d33245afcdbcc3f530ee9cbd7cde28" }
 
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
