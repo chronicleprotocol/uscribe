@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.24;
 
-import {Auth} from "chronicle-std/auth/Auth.sol";
+import {Auth} from "chronicle-std@v2/auth/Auth.sol";
 
 import {IUScribe} from "./IUScribe.sol";
 import {IUScribeRouter} from "./IUScribeRouter.sol";
