@@ -1,7 +1,7 @@
 [profile.default]
-src = 'src'
-out = 'out'
-libs = ['lib', "dependencies"]
+src = "src"
+out = "out"
+libs = ["dependencies"]
 
 # Compilation
 solc_version = "0.8.28"

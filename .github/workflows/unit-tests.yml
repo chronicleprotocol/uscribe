@@ -19,6 +19,9 @@ jobs:
         with:
           version: stable
 
+      - name: Download dependencies
+        run: forge soldeer install
+
       - name: Run Forge build
         run: forge build
         id: build
