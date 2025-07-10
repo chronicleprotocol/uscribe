@@ -103,8 +103,9 @@ abstract contract UScribe is IUScribe, Auth {
     ///
     ///      Protections against replayability issues MAY be including a nonce
     ///      in the payload or only accepting payloads with strictly
-    ///      monotonically increasing timestamps. The `age()(uint)` function
-    ///      can be used by consumers to access the timestamp of the last poke.
+    ///      monotonically increasing timestamps. The `latestPoke()(uint)`
+    ///      function can be used by consumers to access the timestamp of the
+    ///      last poke.
     ///
     ///      To protect against cross-chain replayability issues the payload
     ///      MAY be expected to include the chain's id.
