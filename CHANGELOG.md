@@ -4,9 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Common Changelog](https://common-changelog.org/).
 
+[1.3.0]: https://github.com/chronicleprotocol/uscribe/releases/tag/v1.3.0
 [1.2.0]: https://github.com/chronicleprotocol/uscribe/releases/tag/v1.2.0
 [1.1.0]: https://github.com/chronicleprotocol/uscribe/releases/tag/v1.1.0
 [1.0.0]: https://github.com/chronicleprotocol/uscribe/releases/tag/v1.0.0
+
+## [1.3.0] - 2025-07-10
+
+### Added
+
+- Uniform staleness monitoring ([#8](https://github.com/chronicleprotocol/uscribe/pull/8))
+- Switch to soldeer package manager ([#9](https://github.com/chronicleprotocol/uscribe/pull/9))
 
 ## [1.2.0] - 2025-06-16
 
