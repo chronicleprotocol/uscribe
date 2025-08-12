@@ -31,7 +31,3 @@ By separating the highly complex cryptographic verification from the application
 ## Security
 
 The data integrity verification is based on the battle-tested [Scribe](https://github.com/chronicleprotocol/scribe/) codebase which runs in production since 2023 without security issues and uses the most efficient [multi signature verification](https://github.com/chronicleprotocol/scribe/blob/main/docs/Schnorr.md) live on Ethereum up to this date.
-
-
-
-
