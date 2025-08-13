@@ -22,7 +22,7 @@ This is achieved via separating the data integrity verification from the data up
 
 Consumers are the downstream contract implementations that implement application specific logic. By inheriting from the `UScribe.sol` base contract a consumer automatically implements the highly complex data security verfication and enables a data provider to use the [highest quality validator set](https://chroniclelabs.org/validators) to secure their data.
 
-The internal [`_poke(bytes calldata payload)`](https://github.com/chronicleprotocol/uscribe/blob/main/src/UScribe.sol#L81-L116) function must be overwritten to define the state update executed when new data is being published. Because the integrity of the data is already verified by the _Chronicle Protocol_ the implement must only concern itself with the actual application logic.
+The internal [`_poke(bytes calldata payload)`](https://github.com/chronicleprotocol/uscribe/blob/main/src/UScribe.sol#L81-L116) function must be overwritten to define the data deserialization and state update executed when new data is being published. Because the integrity of the data is already verified by the _Chronicle Protocol_ the implementation must only concern itself with the actual application logic. Note that the data is an opaque data blob which can be deserialized and sanity checked in whichever way applicable.
 
 Via the consumers pattern the uScribe oracle gives data providers the highest flexibility to control who and under which conditions is allowed to access their data. Consumers can implement arbitrary read functions to eg provide access to historical data, grant access based on specific conditions an address must fulfill, or even restrict access during times of uncertainty.
 
